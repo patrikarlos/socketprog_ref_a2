@@ -2,13 +2,13 @@ CC_FLAGS= -Wall -I.
 LD_FLAGS= -Wall -L./ 
 
 
-all: libcalc test client server
+all: libcalc test tcpserver udpserver
 
-servermain.o: servermain.cpp
-	$(CXX)  $(CC_FLAGS) $(CFLAGS) -c servermain.cpp 
+tcpservermain.o: tcpservermain.cpp
+	$(CXX)  $(CC_FLAGS) $(CFLAGS) -c tcpservermain.cpp
 
-clientmain.o: clientmain.cpp
-	$(CXX) $(CC_FLAGS) $(CFLAGS) -c clientmain.cpp 
+udpservermain.o: udpservermain.cpp
+	$(CXX)  $(CC_FLAGS) $(CFLAGS) -c udpservermain.cpp 
 
 main.o: main.cpp
 	$(CXX) $(CC_FLAGS) $(CFLAGS) -c main.cpp 
@@ -17,11 +17,11 @@ main.o: main.cpp
 test: main.o calcLib.o
 	$(CXX) $(LD_FLAGS) -o test main.o -lcalc
 
-client: clientmain.o calcLib.o
-	$(CXX) $(LD_FLAGS) -o client clientmain.o -lcalc
+tcpserver: tcpservermain.o calcLib.o
+	$(CXX) $(LD_FLAGS) -o tcpserver tcpservermain.o -lcalc
 
-server: servermain.o calcLib.o
-	$(CXX) $(LD_FLAGS) -o server servermain.o -lcalc
+udpserver: udpservermain.o calcLib.o
+	$(CXX) $(LD_FLAGS) -o udpserver udpservermain.o -lcalc
 
 
 calcLib.o: calcLib.c calcLib.h
@@ -31,4 +31,4 @@ libcalc: calcLib.o
 	ar -rc libcalc.a -o calcLib.o
 
 clean:
-	rm *.o *.a test server client
+	rm *.o *.a test tcpserver udpserver 
